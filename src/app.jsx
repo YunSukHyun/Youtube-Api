@@ -7,16 +7,18 @@ import VideoList from './components/video_list/video_list';
 function App({youtube}) {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState();
-
   const selectVideo = useCallback((video) => {
     setSelectedVideo(video);
   }, []);
   const search = useCallback(query =>{
-    setSelectedVideo(null);
     youtube
       .search(query)
-      .then(videos =>setVideos(videos));
+      .then(videos =>{
+        setVideos(videos)
+        setSelectedVideo();
+      });
   }, [youtube]);
+
   useEffect(()=>{
     youtube
       .mostPopular()
